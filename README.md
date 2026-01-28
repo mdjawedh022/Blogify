@@ -56,15 +56,15 @@ Database (SQL)
  <br/>
 src/ <br/>
 ├── admin/<br/>
-│   ├── AdminLayout.jsx<br/>
-│   ├── AdminLogin.jsx<br/>
-│   ├── Dashboard.jsx<br/>
-│   ├── EditUserModal.jsx<br/>
-│   ├── InviteUserModal.jsx<br/>
-│   ├── PostModal.jsx<br/>
-│   ├── Posts.jsx<br/>
-│   ├── Settings.jsx<br/>
-│   └── Users.jsx<br/>
+│ <br/>  ├── AdminLayout.jsx<br/>
+│ <br/>  ├── AdminLogin.jsx<br/>
+│<br/>   ├── Dashboard.jsx<br/>
+│<br/>   ├── EditUserModal.jsx<br/>
+│ <br/>  ├── InviteUserModal.jsx<br/>
+│ <br/>  ├── PostModal.jsx<br/>
+│ <br/>  ├── Posts.jsx<br/>
+│ <br/>  ├── Settings.jsx<br/>
+│ <br/>  └── Users.jsx<br/>
 │
 ├── components/<br/>
 │   ├── Categories.jsx<br/>
