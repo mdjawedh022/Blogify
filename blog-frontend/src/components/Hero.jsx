@@ -5,8 +5,11 @@ import {
   Button,
   TextField,
   InputAdornment,
+  Container,
+  alpha,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import banner from "../assets/banner.avif";
 
 const heroLinks = {
@@ -21,132 +24,221 @@ function Hero() {
         position: "relative",
         minHeight: "100vh",
         display: "flex",
-        flexDirection: "column",
+        alignItems: "center",
         justifyContent: "center",
-        textAlign: "center",
-        color: "#fff",
-        backgroundImage: `url(${banner})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        py: { xs: 20, md: 20 },
-        px: 2,
-        "&::before": {
-          content: '""',
+        overflow: "hidden",
+        backgroundColor: "#0f172a",
+        pt: { xs: 12, md: 0 },
+        pb: { xs: 4, md: 0 },
+      }}
+    >
+      {/* Background Overlay */}
+      <Box
+        sx={{
           position: "absolute",
           top: 0,
           left: 0,
           width: "100%",
           height: "100%",
-          backgroundColor: "rgba(0,0,0,0.5)", // dark overlay for readability
-          zIndex: 1,
-        },
-      }}
-    >
-      <Box sx={{ position: "relative", zIndex: 2 }}>
-        {/* Hero Title */}
-        <Typography
-          sx={{
-            fontFamily: "Inter, sans-serif",
-            fontSize: { xs: "32px", md: "52px" },
-            fontWeight: 700,
-            mb: 3,
-            lineHeight: 1.2,
-          }}
-        >
-          Discover the{" "}
-          <Box component="span" sx={{ color: "#2563eb" }}>
-            latest news
-          </Box>{" "}
-          & insights
-        </Typography>
+          backgroundImage: `url(${banner})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          zIndex: 0,
+          "&::after": {
+            content: '""',
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            background: `linear-gradient(to bottom, 
+              ${alpha("#0f172a", 0.8)} 0%, 
+              ${alpha("#0f172a", 0.4)} 50%, 
+              ${alpha("#0f172a", 0.95)} 100%)`,
+          },
+        }}
+      />
 
-        {/* Hero Paragraph */}
-        <Typography
-          sx={{
-            fontFamily: "Inter, sans-serif",
-            fontSize: { xs: "16px", md: "18px" },
-            color: "#e0e7ff",
-            maxWidth: { xs: "90%", sm: "600px", md: "700px" },
-            mx: "auto",
-            mb: 5,
-            lineHeight: 1.8,
-          }}
-        >
-          Stay updated with insightful articles, industry trends, and stories
-          that truly matter. Search, explore, and learn from blogs crafted to
-          keep you informed and ahead in your field.
-        </Typography>
-
-        {/* Search Input */}
-        <Box sx={{ display: "flex", justifyContent: "center", mb: 5, px: 2 }}>
-          <TextField
-            placeholder="Search blogs..."
-            variant="outlined"
-            size="large"
-            sx={{
-              width: { xs: "100%", sm: "400px", md: "500px" },
-              backgroundColor: "#fff",
-              borderRadius: 3,
-              "& .MuiOutlinedInput-root": {
-                borderRadius: 3,
-              },
-            }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon sx={{ color: "#2563eb" }} />
-                </InputAdornment>
-              ),
-            }}
-          />
-        </Box>
-
-        {/* CTA Buttons */}
+      <Container maxWidth="lg" sx={{ position: "relative", zIndex: 2 }}>
         <Box
           sx={{
-            display: "flex",
-            justifyContent: "center",
-            gap: 3,
-            flexWrap: "wrap",
+            textAlign: "center",
+            maxWidth: "900px",
+            mx: "auto",
+            px: { xs: 2, sm: 0 },
           }}
         >
-          <Button
-            variant="contained"
+          {/* Responsive Badge */}
+          <Box
             sx={{
-              fontFamily: "Inter",
-              fontSize: "16px",
-              fontWeight: 600,
-              px: 5,
-              py: 1.5,
-              borderRadius: 3,
-              backgroundColor: "#2563eb",
-              textTransform: "none",
-              "&:hover": { backgroundColor: "#1e40af" },
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 1,
+              px: { xs: 1.5, md: 2 },
+              py: 0.5,
+              mb: { xs: 2, md: 4 },
+              borderRadius: "50px",
+              bgcolor: alpha("#2563eb", 0.15),
+              border: `1px solid ${alpha("#2563eb", 0.3)}`,
+              backdropFilter: "blur(10px)",
             }}
           >
-            {heroLinks.primary.label}
-          </Button>
+            <TrendingUpIcon
+              sx={{ color: "#60a5fa", fontSize: { xs: 14, md: 18 } }}
+            />
+            <Typography
+              variant="caption"
+              sx={{
+                color: "#dbeafe",
+                fontWeight: 700,
+                letterSpacing: 1,
+                fontSize: { xs: "0.65rem", md: "0.75rem" },
+              }}
+            >
+              LATEST INSIGHTS FOR 2026
+            </Typography>
+          </Box>
 
-          <Button
-            variant="outlined"
+          {/* Hero Title - Fluid Font Size */}
+          <Typography
             sx={{
-              fontFamily: "Inter",
-              fontSize: "16px",
-              fontWeight: 500,
-              px: 5,
-              py: 1.5,
-              borderRadius: 3,
-              color: "#2563eb",
-              borderColor: "#2563eb",
-              textTransform: "none",
-              "&:hover": { backgroundColor: "rgba(37,99,235,0.1)" },
+              fontSize: {
+                xs: "2.2rem", // Small mobile
+                sm: "3.2rem", // Tablets
+                md: "4.5rem", // Desktop
+              },
+              fontWeight: 900,
+              color: "#fff",
+              lineHeight: { xs: 1.2, md: 1.1 },
+              mb: { xs: 2, md: 3 },
+              letterSpacing: "-0.04em",
+              textShadow: "0 10px 30px rgba(0,0,0,0.3)",
+            }}
+          >
+            Discover the{" "}
+            <Box
+              component="span"
+              sx={{
+                background: "linear-gradient(90deg, #60a5fa, #2563eb)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              latest news
+            </Box>{" "}
+            & insights
+          </Typography>
+
+          {/* Subtitle - Fluid Font Size */}
+          <Typography
+            sx={{
+              fontSize: { xs: "1rem", md: "1.25rem" },
+              color: alpha("#fff", 0.7),
+              mb: { xs: 4, md: 6 },
+              lineHeight: 1.6,
+              maxWidth: "700px",
+              mx: "auto",
+              px: { xs: 2, md: 0 },
+            }}
+          >
+            Stay ahead of the curve with deep dives into industry trends and
+            expertly crafted stories designed for the modern reader.
+          </Typography>
+
+          {/* Glassmorphic Search Bar - Stacks on Mobile */}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "column", sm: "row" },
+              alignItems: "center",
+              justifyContent: "center",
+              gap: { xs: 1.5, sm: 2 },
+              mb: { xs: 2, md: 6 },
+              width: "100%",
+            }}
+          >
+            <TextField
+              placeholder="Search by topic..."
+              variant="outlined"
+              fullWidth
+              sx={{
+                maxWidth: { xs: "100%", sm: "450px" },
+                "& .MuiOutlinedInput-root": {
+                  color: "#fff",
+                  bgcolor: alpha("#fff", 0.07),
+                  backdropFilter: "blur(20px)",
+                  borderRadius: { xs: "12px", md: "16px" },
+                  border: `1px solid ${alpha("#fff", 0.1)}`,
+                  height: { xs: "50px", md: "56px" },
+                  "& fieldset": { border: "none" },
+                  "&.Mui-focused": {
+                    bgcolor: alpha("#fff", 0.12),
+                    border: `1px solid ${alpha("#2563eb", 0.5)}`,
+                  },
+                },
+              }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon
+                      sx={{ color: "#60a5fa", fontSize: { xs: 20, md: 24 } }}
+                    />
+                  </InputAdornment>
+                ),
+              }}
+            />
+
+            <Button
+              variant="contained"
+              fullWidth={false}
+              sx={{
+                width: { xs: "100%", sm: "auto" },
+                height: { xs: "50px", md: "56px" },
+                px: 4,
+                borderRadius: { xs: "12px", md: "16px" },
+                bgcolor: "#2563eb",
+                fontWeight: 700,
+                textTransform: "none",
+                fontSize: { xs: "0.9rem", md: "1rem" },
+                "&:hover": {
+                  bgcolor: "#1d4ed8",
+                  transform: "translateY(-2px)",
+                },
+              }}
+            >
+              Find Blogs
+            </Button>
+          </Box>
+
+          {/* Secondary Link */}
+          <Button
+            variant="text"
+            sx={{
+              color: "#fff",
+              fontWeight: 600,
+              fontSize: { xs: "0.85rem", md: "1rem" },
+              "&:hover": { color: "#60a5fa", bgcolor: "transparent" },
+              textDecoration: "underline",
+              textUnderlineOffset: "8px",
             }}
           >
             {heroLinks.secondary.label}
           </Button>
         </Box>
-      </Box>
+      </Container>
+
+      {/* Bottom Fade */}
+      <Box
+        sx={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          width: "100%",
+          height: { xs: "80px", md: "150px" },
+          background: "linear-gradient(to top, #0f172a, transparent)",
+          zIndex: 1,
+        }}
+      />
     </Box>
   );
 }

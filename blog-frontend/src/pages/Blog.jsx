@@ -10,7 +10,6 @@ import {
   Button,
   Chip,
 } from "@mui/material";
-
 const blogPosts = [
   {
     id: 1,
@@ -112,6 +111,7 @@ const blogPosts = [
     link: "/blog/mui-responsive",
   },
 ];
+
 
 const Blog = () => {
   return (

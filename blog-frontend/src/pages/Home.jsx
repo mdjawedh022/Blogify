@@ -16,7 +16,7 @@ const Home = () => {
       <Categories />
       <StatsSection/>
       <Testimonials />
-      <Footer />
+     
     </>
   );
 }
