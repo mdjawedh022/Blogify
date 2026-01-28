@@ -1,9 +1,9 @@
-📝 Blogify – Full Stack Blog Application
+📝 **Blogify – Full Stack Blog Application**
 
 Blogify is a full-stack blog application built with React (Material UI) on the frontend and Java on the backend.
 It includes authentication, client-facing blog features, and an admin panel for managing content.
 
-🚀 Features
+🚀 **Features**
 👤 Client (User)
 
 User authentication (Login / Register)
@@ -52,8 +52,8 @@ REST APIs
 Authentication & Authorization
 
 Database (SQL)
-
-📁 Frontend Folder Structure
+**Frontend Folder Structure**
+📁 
 src/ <br/>
 ├── admin/<br/>
 │   ├── AdminLayout.jsx<br/>
@@ -66,39 +66,41 @@ src/ <br/>
 │   ├── Settings.jsx<br/>
 │   └── Users.jsx<br/>
 │
-├── components/
-│   ├── Categories.jsx
-│   ├── FeaturedBlogs.jsx
-│   ├── Footer.jsx
-│   ├── Hero.jsx
-│   ├── Navbar.jsx
-│   ├── Newsletter.jsx
-│   ├── StatsSection.jsx
-│   └── Testimonials.jsx
+├── components/<br/>
+│   ├── Categories.jsx<br/>
+│   ├── FeaturedBlogs.jsx<br/>
+│   ├── Footer.jsx<br/>
+│   ├── Hero.jsx<br/>
+│   ├── Navbar.jsx<br/>
+│   ├── Newsletter.jsx<br/>
+│   ├── StatsSection.jsx<br/>
+│   └── Testimonials.jsx<br/>
 │
-├── pages/
-│   ├── About.jsx
-│   ├── Blog.jsx
-│   ├── BlogDetail.jsx
-│   ├── BlogList.jsx
-│   ├── Contact.jsx
-│   ├── Home.jsx
-│   └── NotFound.jsx
+├── pages/<br/>
+│   ├── About.jsx<br/>
+│   ├── Blog.jsx<br/>
+│   ├── BlogDetail.jsx<br/>
+│   ├── BlogList.jsx<br/>
+│   ├── Contact.jsx<br/>
+│   ├── Home.jsx<br/>
+│   └── NotFound.jsx<br/>
 │
-├── assets/
-├── utils/
-├── letter/
-├── env/
+├── assets/<br/>
+├── utils/<br/>
+├── letter/<br/>
+├── env/<br/>
 │
-├── App.js
-└── index.js
-📁 Backend Folder Structure (Java)
-backend/
-├── controller/     # REST controllers
-├── service/        # Business logic
-├── repository/     # Database access
-├── model/          # Entity classes
-├── config/         # Security & app configuration
+├── App.js<br/>
+└── index.js<br/>
+
+<br/>
+📁 **Backend Folder Structure (Java)**
+backend/<br/>
+├── controller/<br/>     # REST controllers
+├── service/<br/>        # Business logic
+├── repository/<br/>     # Database access
+├── model/<br/>          # Entity classes
+├── config/<br/>         # Security & app configuration
 └── application.properties
 ⚙️ Environment Variables
 
@@ -107,7 +109,7 @@ Create a .env file in the frontend root:
 REACT_APP_API_BASE_URL=http://localhost:8080/api
 
 
-▶️ Run the Remember Project
+▶️ **Run the Remember Project**
 Frontend
 npm install
 npm start
@@ -122,7 +124,7 @@ Run the main Java application
 Backend runs on: http://localhost:8080
 
 
-🔑 Authentication Flow
+🔑 ***Authentication Flow**
 
 Admin registers or logs in
 
@@ -133,7 +135,7 @@ Token/session is generated
 Protected routes are accessible based on role
 
 
-🎨 UI Design
+🎨 **UI Design**
 
 Material UI components
 
@@ -145,7 +147,8 @@ User-friendly blog reading experience
 
 🌐 Project Name
 
-Blogify – Write. Read. Inspire.
+**Blogify – Write. Read. Inspire.**
+
 
 📌 Future Enhancements
 
@@ -161,6 +164,6 @@ SEO optimization
 
 👨‍💻 Author
 
-Md Jawed Hussain
+**Md Jawed Hussain**
 Full Stack Web Developer
 MERN & Java Enthusiast
