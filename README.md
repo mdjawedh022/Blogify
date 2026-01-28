@@ -55,18 +55,18 @@ Database (SQL)
 📁 **Frontend Folder Structure**
  <br/>
 src/ <br/>
-├── admin/<br/>
-│ <br/>  ├── AdminLayout.jsx<br/>
-│ <br/>  ├── AdminLogin.jsx<br/>
-│<br/>   ├── Dashboard.jsx<br/>
-│<br/>   ├── EditUserModal.jsx<br/>
-│ <br/>  ├── InviteUserModal.jsx<br/>
-│ <br/>  ├── PostModal.jsx<br/>
-│ <br/>  ├── Posts.jsx<br/>
-│ <br/>  ├── Settings.jsx<br/>
-│ <br/>  └── Users.jsx<br/>
+├─── admin/<br/>
+│  ├── AdminLayout.jsx<br/>
+│  ├── AdminLogin.jsx<br/>
+│  ├── Dashboard.jsx<br/>
+│  ├── EditUserModal.jsx<br/>
+│  ├── InviteUserModal.jsx<br/>
+│  ├── PostModal.jsx<br/>
+│  ├── Posts.jsx<br/>
+│  ├── Settings.jsx<br/>
+│  └── Users.jsx<br/>
 │
-├── components/<br/>
+├─── components/<br/>
 │   ├── Categories.jsx<br/>
 │   ├── FeaturedBlogs.jsx<br/>
 │   ├── Footer.jsx<br/>
@@ -76,7 +76,7 @@ src/ <br/>
 │   ├── StatsSection.jsx<br/>
 │   └── Testimonials.jsx<br/>
 │
-├── pages/<br/>
+├─── pages/<br/>
 │   ├── About.jsx<br/>
 │   ├── Blog.jsx<br/>
 │   ├── BlogDetail.jsx<br/>
