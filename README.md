@@ -1,7 +1,7 @@
 📝 **Blogify – Full Stack Blog Application**
 
-Blogify is a full-stack blog application built with React (Material UI) on the frontend and Java on the backend.
-It includes authentication, client-facing blog features, and an admin panel for managing content.
+**Blogify** is a modern full-stack blog platform with a client-facing website and a powerful admin dashboard.
+It is built using React.js with Material UI for the frontend and Java (REST APIs) for the backend, featuring authentication, role-based access, and content management.
 
 🚀 **Features**
 👤 Client (User)
@@ -52,8 +52,8 @@ REST APIs
 Authentication & Authorization
 
 Database (SQL)
-**Frontend Folder Structure**
-📁 
+📁 **Frontend Folder Structure**
+ <br/>
 src/ <br/>
 ├── admin/<br/>
 │   ├── AdminLayout.jsx<br/>
@@ -94,7 +94,8 @@ src/ <br/>
 └── index.js<br/>
 
 <br/>
-📁 **Backend Folder Structure (Java)**<br/>
+📁 **Backend Folder Structure (Java)**
+<br/>
 backend/<br/>
 ├── controller/<br/>    
 ├── service/<br/>       
@@ -174,3 +175,8 @@ SEO optimization
 **Md Jawed Hussain**<br/>
 Full Stack Web Developer<br/>
 MERN & Java Enthusiast<br/>
+
+
+📜 **License**
+<br/>
+This project is for learning and portfolio purposes.
