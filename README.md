@@ -54,34 +54,52 @@ Authentication & Authorization
 Database (SQL)
 
 📁 Frontend Folder Structure
-
-src/
+src/ <br/>
+├── admin/<br/>
+│   ├── AdminLayout.jsx<br/>
+│   ├── AdminLogin.jsx<br/>
+│   ├── Dashboard.jsx<br/>
+│   ├── EditUserModal.jsx<br/>
+│   ├── InviteUserModal.jsx<br/>
+│   ├── PostModal.jsx<br/>
+│   ├── Posts.jsx<br/>
+│   ├── Settings.jsx<br/>
+│   └── Users.jsx<br/>
 │
-├── pages/          # All pages (Home, Login, Blog, Admin pages)
-├── components/     # Reusable UI components
-├── admin/          # Admin-specific pages & components
-├── assets/         # Images, icons, static files
-├── utils/          # Helper functions, API handlers
-├── letter/         # Constants / static text (if used)
-├── env/            # Environment config
+├── components/
+│   ├── Categories.jsx
+│   ├── FeaturedBlogs.jsx
+│   ├── Footer.jsx
+│   ├── Hero.jsx
+│   ├── Navbar.jsx
+│   ├── Newsletter.jsx
+│   ├── StatsSection.jsx
+│   └── Testimonials.jsx
+│
+├── pages/
+│   ├── About.jsx
+│   ├── Blog.jsx
+│   ├── BlogDetail.jsx
+│   ├── BlogList.jsx
+│   ├── Contact.jsx
+│   ├── Home.jsx
+│   └── NotFound.jsx
+│
+├── assets/
+├── utils/
+├── letter/
+├── env/
 │
 ├── App.js
 └── index.js
-
-
-
-
 📁 Backend Folder Structure (Java)
 backend/
-│
 ├── controller/     # REST controllers
 ├── service/        # Business logic
 ├── repository/     # Database access
 ├── model/          # Entity classes
 ├── config/         # Security & app configuration
 └── application.properties
-
-
 ⚙️ Environment Variables
 
 Create a .env file in the frontend root:
