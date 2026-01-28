@@ -94,7 +94,7 @@ src/ <br/>
 └── index.js<br/>
 
 <br/>
-📁 **Backend Folder Structure (Java)**
+📁 **Backend Folder Structure (Java)**<br/>
 backend/<br/>
 ├── controller/<br/>    
 ├── service/<br/>       
@@ -164,7 +164,6 @@ Comment system
 
 Blog categories & tags
 
-Rich text editor
 
 Image upload
 
