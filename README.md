@@ -96,13 +96,21 @@ src/ <br/>
 <br/>
 📁 **Backend Folder Structure (Java)**
 backend/<br/>
-├── controller/<br/>     # REST controllers
-├── service/<br/>        # Business logic
-├── repository/<br/>     # Database access
-├── model/<br/>          # Entity classes
-├── config/<br/>         # Security & app configuration
-└── application.properties
-⚙️ Environment Variables
+├── controller/<br/>    
+├── service/<br/>       
+├── repository/<br/>    
+├── model/<br/>         
+├── config/<br/>        
+└── application.properties<br/>
+
+ # REST controllers<br/>
+  # Business logic<br/>
+   # Database access<br/>
+    # Entity classes<br/>
+     # Security & app configuration<br/>
+
+    
+⚙️ **Environment Variables**
 
 Create a .env file in the frontend root:
 
@@ -163,7 +171,7 @@ Image upload
 SEO optimization
 
 👨‍💻 Author
-
-**Md Jawed Hussain**
-Full Stack Web Developer
-MERN & Java Enthusiast
+<br/>
+**Md Jawed Hussain**<br/>
+Full Stack Web Developer<br/>
+MERN & Java Enthusiast<br/>
