@@ -81,7 +81,7 @@ const Contact = () => {
       sx={{
         bgcolor: "#ffffff",
         minHeight: "100vh",
-        py: { xs: 8, md: 12 },
+        py: { xs: 10, md: 13 },
         position: "relative",
       }}
     >

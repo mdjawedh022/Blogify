@@ -180,3 +180,10 @@ MERN & Java Enthusiast<br/>
 📜 **License**
 <br/>
 This project is for learning and portfolio purposes.
+
+
+
+
+axios.delete(`http://localhost:8080/blogs/${id}`);
+
+axios.put(`http://localhost:8080/blogs/${id}`, blogData);

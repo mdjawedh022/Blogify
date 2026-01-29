@@ -11,7 +11,6 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
-import Blog from "./pages/Blog";
 import BlogList from "./pages/BlogList";
 import BlogDetail from "./pages/BlogDetail";
 
@@ -42,10 +41,9 @@ const LayoutWrapper = () => {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/blo" element={<Blog />} />
           <Route path="/blog" element={<BlogList />} />
-          <Route path="/blog/:slug" element={<BlogDetail />} />
-
+          {/* <Route path="/blog-details" element={<BlogDetail />} /> */}
+          <Route path="/blog/:id" element={<BlogDetail />} />
           {/* Admin Routes */}
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminLayout />}>

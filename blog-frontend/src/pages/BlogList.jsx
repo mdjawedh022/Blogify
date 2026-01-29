@@ -1,158 +1,180 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
+  Container,
+  Grid,
   Card,
   CardContent,
-  CardMedia,
   Typography,
   Button,
   Box,
-  Container,
+  CircularProgress,
+  Alert,
+  Divider,
   Chip,
-  Grid,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { blogPosts } from "../Data/blog";
-
-// Banner image
-import blogBanner from "../assets/banner.avif";
+import { fetchPublishedBlogs } from "../redux/blog/blogActions";
 
 function BlogList() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { loading, blogs, error } = useSelector((state) => state.blog);
+
+  useEffect(() => {
+    dispatch(fetchPublishedBlogs());
+  }, [dispatch]);
+
+  if (loading) {
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="100vh"
+      >
+        <CircularProgress thickness={5} size={50} />
+      </Box>
+    );
+  }
 
   return (
-    <>
-      {/* ===== Banner Section ===== */}
+    <Box sx={{ backgroundColor: "#f9f9f9", minHeight: "100vh" }}>
+      {/* Hero / Header Section with Top Padding */}
       <Box
         sx={{
-          position: "relative",
-          height: { xs: 280, md: 360 },
-          backgroundImage: `url(${blogBanner})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          display: "flex",
-          alignItems: "center",
+          pt: { xs: 8, md: 12 }, // Large top padding
+          pb: { xs: 6, md: 8 },
+          background: "linear-gradient(to bottom, #ffffff, #f9f9f9)",
+          borderBottom: "1px solid #eee",
         }}
       >
-        <Box
-          sx={{
-            position: "absolute",
-            inset: 0,
-            background:
-              "linear-gradient(135deg, rgba(15,23,42,0.85), rgba(30,64,175,0.85))",
-          }}
-        />
-
-        <Container
-          maxWidth="md"
-          sx={{
-            position: "relative",
-            zIndex: 1,
-            textAlign: "center",
-            color: "#fff",
-          }}
-        >
-          <Typography fontSize={{ xs: 32, md: 44 }} fontWeight={800} mb={2}>
-            Our Blog
+        <Container maxWidth="md">
+          <Typography
+            variant="overline"
+            display="block"
+            align="center"
+            gutterBottom
+            sx={{ letterSpacing: 2, color: "primary.main", fontWeight: "bold" }}
+          >
+            Our Notebook
           </Typography>
-          <Typography fontSize={18} sx={{ opacity: 0.9 }}>
-            Articles, tutorials & insights for modern web developers.
+          <Typography
+            variant="h2"
+            component="h1"
+            align="center"
+            sx={{
+              fontWeight: 800,
+              fontSize: { xs: "2.5rem", md: "3.75rem" },
+              mb: 2,
+            }}
+          >
+            Latest Insights
+          </Typography>
+          <Typography
+            variant="h6"
+            align="center"
+            color="text.secondary"
+            sx={{ fontWeight: 400 }}
+          >
+            Exploring the world of technology, design, and development.
           </Typography>
         </Container>
       </Box>
 
-      {/* ===== Blog Grid ===== */}
+      {/* Main Content */}
       <Container maxWidth="lg" sx={{ py: 8 }}>
-        <Grid container spacing={4}>
-          {blogPosts.map((blog, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
-              <Card
-                sx={{
-                  height: "100%",
-                  borderRadius: 3,
-                  overflow: "hidden",
-                  transition: "all 0.3s ease",
-                  boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
-                  "&:hover": {
-                    transform: "translateY(-6px)",
-                    boxShadow: "0 20px 40px rgba(0,0,0,0.15)",
-                  },
-                }}
-              >
-                {/* Blog Image */}
-                <CardMedia
-                  component="img"
-                  height="180"
-                  image={blog.image}
-                  alt={blog.title}
-                />
-
-                <CardContent sx={{ p: 3 }}>
-                  {/* Category + Date */}
-                  <Box
+        {error ? (
+          <Alert severity="error" variant="outlined">
+            {error}
+          </Alert>
+        ) : (
+          <Grid container spacing={4}>
+            {blogs &&
+              blogs.map((blog) => (
+                <Grid item key={blog.id} xs={12} sm={6} md={4}>
+                  <Card
+                    elevation={0}
                     sx={{
+                      height: "100%",
                       display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      mb: 1.5,
-                    }}
-                  >
-                    <Chip
-                      label={blog.category}
-                      size="small"
-                      sx={{
-                        backgroundColor: "#e0e7ff",
-                        color: "#1e40af",
-                        fontWeight: 600,
-                      }}
-                    />
-                    <Typography fontSize={13} color="text.secondary">
-                      {blog.date}
-                    </Typography>
-                  </Box>
-
-                  {/* Title */}
-                  <Typography
-                    fontSize={18}
-                    fontWeight={700}
-                    lineHeight={1.4}
-                    mb={1}
-                  >
-                    {blog.title}
-                  </Typography>
-
-                  {/* Excerpt */}
-                  <Typography
-                    fontSize={14}
-                    color="text.secondary"
-                    lineHeight={1.7}
-                    mb={2}
-                  >
-                    {blog.excerpt}
-                  </Typography>
-
-                  {/* Read More */}
-                  <Button
-                    onClick={() => navigate(blog.link)}
-                    sx={{
-                      textTransform: "none",
-                      fontWeight: 600,
-                      color: "#2563eb",
-                      p: 0,
+                      flexDirection: "column",
+                      borderRadius: 4,
+                      border: "1px solid #e0e0e0",
+                      transition: "all 0.3s ease-in-out",
                       "&:hover": {
-                        backgroundColor: "transparent",
-                        textDecoration: "underline",
+                        transform: "translateY(-8px)",
+                        boxShadow: "0 12px 24px rgba(0,0,0,0.1)",
+                        borderColor: "primary.main",
                       },
                     }}
                   >
-                    Read More →
-                  </Button>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
+                    <CardContent sx={{ flexGrow: 1, p: 3 }}>
+                      <Chip
+                        label="Article"
+                        size="small"
+                        sx={{ mb: 2, borderRadius: 1 }}
+                        color="primary"
+                        variant="outlined"
+                      />
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        sx={{ fontWeight: 700, lineHeight: 1.3, mb: 2 }}
+                      >
+                        {blog.title}
+                      </Typography>
+
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{
+                          lineHeight: 1.7,
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          display: "-webkit-box",
+                          WebkitLineClamp: 3,
+                          WebkitBoxOrient: "vertical",
+                        }}
+                      >
+                        {blog.content}
+                      </Typography>
+                    </CardContent>
+
+                    <Divider variant="middle" />
+
+                    <Box sx={{ p: 3 }}>
+                      <Button
+                        variant="text"
+                        color="primary"
+                        sx={{
+                          fontWeight: "bold",
+                          px: 0,
+                          "&:hover": {
+                            backgroundColor: "transparent",
+                            textDecoration: "underline",
+                          },
+                        }}
+                        onClick={() => navigate(`/blog/${blog.id}`)}
+                      >
+                        Read Full Article →
+                      </Button>
+                    </Box>
+                  </Card>
+                </Grid>
+              ))}
+          </Grid>
+        )}
+
+        {blogs?.length === 0 && !loading && !error && (
+          <Box textAlign="center" py={10}>
+            <Typography variant="h6" color="text.secondary">
+              No published blogs available at the moment.
+            </Typography>
+          </Box>
+        )}
       </Container>
-    </>
+    </Box>
   );
 }
 
