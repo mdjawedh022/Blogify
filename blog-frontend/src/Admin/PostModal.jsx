@@ -6,107 +6,91 @@ import {
   DialogActions,
   TextField,
   Button,
-  Stack,
-  IconButton,
-  useMediaQuery,
+  Switch,
+  FormControlLabel,
 } from "@mui/material";
-import { Close } from "@mui/icons-material";
-import { useTheme } from "@mui/material/styles";
+import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
+import { createPost, updateBlog } from "../redux/blog/blogActions";
 
-const PostModal = ({ open, mode, post, onClose }) => {
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
-
-  const isView = mode === "view";
+const PostModal = ({ open, onClose, editData }) => {
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
     title: "",
-    author: "",
-    category: "",
-    date: "",
     content: "",
+    published: false,
   });
 
+  /* LOAD EDIT DATA */
   useEffect(() => {
-    if (post) setFormData(post);
-  }, [post]);
+    if (editData) {
+      setFormData(editData);
+    } else {
+      setFormData({ title: "", content: "", published: false });
+    }
+  }, [editData]);
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      fullScreen={fullScreen}
-      maxWidth="sm"
-      fullWidth
-    >
-      <DialogTitle sx={{ fontWeight: 800 }}>
-        {mode === "add" && "Add New Post"}
-        {mode === "edit" && "Edit Post"}
-        {mode === "view" && "Post Details"}
-        <IconButton onClick={onClose} sx={{ float: "right" }}>
-          <Close />
-        </IconButton>
-      </DialogTitle>
+  const handleSubmit = () => {
+    if (editData) {
+      dispatch(updateBlog(editData.id, formData));
+      toast.success("Post updated");
+    } else {
+      dispatch(createPost(formData));
+      toast.success("Post created");
+    }
+    onClose();
+  };
 
-      <DialogContent dividers>
-        <Stack spacing={2}>
-          <TextField
-            label="Post Title"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            fullWidth
-            disabled={isView}
-          />
-          <TextField
-            label="Author"
-            name="author"
-            value={formData.author}
-            onChange={handleChange}
-            fullWidth
-            disabled={isView}
-          />
-          <TextField
-            label="Category"
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
-            fullWidth
-            disabled={isView}
-          />
-          <TextField
-            type="date"
-            label="Publish Date"
-            name="date"
-            InputLabelProps={{ shrink: true }}
-            value={formData.date}
-            onChange={handleChange}
-            fullWidth
-            disabled={isView}
-          />
-          <TextField
-            label="Content"
-            name="content"
-            multiline
-            minRows={4}
-            value={formData.content}
-            onChange={handleChange}
-            fullWidth
-            disabled={isView}
-          />
-        </Stack>
+  return (
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+      <DialogTitle>{editData ? "Edit Post" : "Create New Post"}</DialogTitle>
+
+      <DialogContent>
+        <TextField
+          label="Title"
+          name="title"
+          fullWidth
+          margin="normal"
+          value={formData.title}
+          onChange={handleChange}
+        />
+
+        <TextField
+          label="Content"
+          name="content"
+          multiline
+          rows={5}
+          fullWidth
+          margin="normal"
+          value={formData.content}
+          onChange={handleChange}
+        />
+
+        <FormControlLabel
+          control={
+            <Switch
+              checked={formData.published}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  published: e.target.checked,
+                })
+              }
+            />
+          }
+          label={formData.published ? "Published" : "Draft"}
+        />
       </DialogContent>
 
-      <DialogActions sx={{ p: 2 }}>
-        <Button onClick={onClose}>Close</Button>
-        {!isView && (
-          <Button variant="contained" sx={{ fontWeight: 700 }}>
-            Save
-          </Button>
-        )}
+      <DialogActions>
+        <Button onClick={onClose}>Cancel</Button>
+        <Button variant="contained" onClick={handleSubmit}>
+          {editData ? "Update" : "Create"}
+        </Button>
       </DialogActions>
     </Dialog>
   );

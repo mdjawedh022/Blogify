@@ -1,186 +1,226 @@
-import React, { useState } from "react";
+// PostPage.jsx
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  Typography,
   Box,
-  Paper,
+  CircularProgress,
+  Typography,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  IconButton,
-  Avatar,
-  Stack,
+  Paper,
   Button,
+  IconButton,
+  Chip,
+  Stack,
   Card,
   CardContent,
-  Divider,
+  Avatar,
   useMediaQuery,
-  Chip,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import {
-  Add,
   Edit,
   Delete,
   Visibility,
+  Add,
   InsertDriveFile,
 } from "@mui/icons-material";
-import PostModal from "./PostModal";
+import toast from "react-hot-toast";
 
-const PostsTable = () => {
+import { fetchBlogs, deleteBlog } from "../redux/blog/blogActions";
+import PostModal from "./PostModal";
+import PostDetailModal from "./components/PostDetailModal";
+
+const PostPage = () => {
+  const dispatch = useDispatch();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const [posts] = useState([
-    {
-      id: 1,
-      title: "The Future of AI",
-      author: "Jane Doe",
-      category: "Technology",
-      date: "24 May 2026",
-      content: "AI is transforming industries rapidly...",
-    },
-    {
-      id: 2,
-      title: "React Design Patterns",
-      author: "John Smith",
-      category: "Development",
-      date: "22 May 2026",
-      content: "Learn scalable React patterns...",
-    },
-  ]);
+  const { blogs, loading, error } = useSelector((state) => state.blog);
 
-  const [modalMode, setModalMode] = useState(null);
+  const [openForm, setOpenForm] = useState(false);
+  const [openView, setOpenView] = useState(false);
+  const [editData, setEditData] = useState(null);
   const [selectedPost, setSelectedPost] = useState(null);
 
-  const handleOpen = (mode, post = null) => {
-    setModalMode(mode);
-    setSelectedPost(post);
+  useEffect(() => {
+    dispatch(fetchBlogs());
+  }, [dispatch]);
+
+  /* DELETE */
+  const handleDelete = (id) => {
+    if (window.confirm("Are you sure you want to delete this post?")) {
+      dispatch(deleteBlog(id));
+      toast.success("Post deleted successfully");
+    }
   };
 
-  const handleClose = () => {
-    setModalMode(null);
-    setSelectedPost(null);
+  /* VIEW */
+  const handleView = (post) => {
+    setSelectedPost(post);
+    setOpenView(true);
   };
+
+  /* EDIT */
+  const handleEdit = (post) => {
+    setEditData(post);
+    setOpenForm(true);
+  };
+
+  if (loading) {
+    return (
+      <Box display="flex" justifyContent="center" mt={5}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Typography color="error" align="center">
+        {error}
+      </Typography>
+    );
+  }
 
   return (
-    <Box sx={{ p: { xs: 2, md: 4 }, bgcolor: "#f4f7fe", minHeight: "100vh" }}>
-      {/* Header */}
+    <Box sx={{ p: { xs: 2, md: 4 } }}>
+      {/* HEADER */}
       <Stack
         direction={{ xs: "column", sm: "row" }}
         justifyContent="space-between"
-        alignItems="center"
+        alignItems={{ xs: "stretch", sm: "center" }}
         spacing={2}
         mb={3}
       >
-        <Box>
-          <Typography variant="h4" fontWeight={800}>
-            Blog Posts
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Create, edit and manage blog articles
-          </Typography>
-        </Box>
+        <Typography variant="h5" fontWeight={800}>
+          Blog Management
+        </Typography>
 
         <Button
+          fullWidth={isMobile}
           variant="contained"
           startIcon={<Add />}
-          sx={{ borderRadius: 3, fontWeight: 700 }}
-          onClick={() => handleOpen("add")}
+          onClick={() => {
+            setEditData(null);
+            setOpenForm(true);
+          }}
         >
-          New Post
+          Add Post
         </Button>
       </Stack>
 
-      {/* 🔹 MOBILE VIEW */}
+      {/* MOBILE VIEW */}
       {isMobile ? (
         <Stack spacing={2}>
-          {posts.map((post) => (
-            <Card key={post.id} sx={{ borderRadius: 3 }}>
+          {blogs.map((post) => (
+            <Card
+              key={post.id}
+              sx={{
+                borderRadius: 3,
+                boxShadow: 3,
+              }}
+            >
               <CardContent>
-                <Stack direction="row" spacing={2}>
-                  <Avatar sx={{ bgcolor: "#e3e7ff", color: "#3f51b5" }}>
-                    <InsertDriveFile />
-                  </Avatar>
-                  <Box>
-                    <Typography fontWeight={700}>{post.title}</Typography>
-                    <Typography variant="caption" color="text.secondary">
-                      {post.author} • {post.date}
+                <Stack spacing={1.5}>
+                  <Stack direction="row" spacing={2} alignItems="center">
+                    <Avatar sx={{ bgcolor: "#e3e7ff", color: "#3f51b5" }}>
+                      <InsertDriveFile />
+                    </Avatar>
+
+                    <Typography
+                      fontWeight={700}
+                      sx={{ wordBreak: "break-word" }}
+                    >
+                      {post.title}
                     </Typography>
-                  </Box>
-                </Stack>
+                  </Stack>
 
-                <Chip
-                  label={post.category}
-                  size="small"
-                  sx={{ mt: 1.5, fontWeight: 600 }}
-                />
+                  <Chip
+                    label={post.published ? "PUBLISHED" : "DRAFT"}
+                    color={post.published ? "success" : "warning"}
+                    size="small"
+                    sx={{ alignSelf: "flex-start" }}
+                  />
 
-                <Divider sx={{ my: 1.5 }} />
-
-                <Stack direction="row" justifyContent="flex-end">
-                  <IconButton onClick={() => handleOpen("view", post)}>
-                    <Visibility />
-                  </IconButton>
-                  <IconButton
-                    onClick={() => handleOpen("edit", post)}
-                    color="primary"
-                  >
-                    <Edit />
-                  </IconButton>
-                  <IconButton color="error">
-                    <Delete />
-                  </IconButton>
+                  <Stack direction="row" justifyContent="flex-end" spacing={1}>
+                    <IconButton onClick={() => handleView(post)}>
+                      <Visibility />
+                    </IconButton>
+                    <IconButton
+                      onClick={() => handleEdit(post)}
+                      color="primary"
+                    >
+                      <Edit />
+                    </IconButton>
+                    <IconButton
+                      color="error"
+                      onClick={() => handleDelete(post.id)}
+                    >
+                      <Delete />
+                    </IconButton>
+                  </Stack>
                 </Stack>
               </CardContent>
             </Card>
           ))}
         </Stack>
       ) : (
-        /* 🔹 DESKTOP VIEW */
+        /* DESKTOP TABLE */
         <TableContainer component={Paper} sx={{ borderRadius: 4 }}>
           <Table>
-            <TableHead sx={{ bgcolor: "#f8f9fa" }}>
+            <TableHead sx={{ bgcolor: "#f5f5f5" }}>
               <TableRow>
-                <TableCell sx={{ fontWeight: 700 }}>POST</TableCell>
-                <TableCell sx={{ fontWeight: 700 }}>CATEGORY</TableCell>
-                <TableCell sx={{ fontWeight: 700 }}>DATE</TableCell>
-                <TableCell align="right" sx={{ fontWeight: 700 }}>
-                  ACTIONS
+                <TableCell>
+                  <b>POST</b>
+                </TableCell>
+                <TableCell>
+                  <b>STATUS</b>
+                </TableCell>
+                <TableCell align="right">
+                  <b>ACTIONS</b>
                 </TableCell>
               </TableRow>
             </TableHead>
+
             <TableBody>
-              {posts.map((post) => (
+              {blogs.map((post) => (
                 <TableRow key={post.id} hover>
                   <TableCell>
-                    <Stack direction="row" spacing={2}>
+                    <Stack direction="row" spacing={2} alignItems="center">
                       <Avatar sx={{ bgcolor: "#e3e7ff", color: "#3f51b5" }}>
                         <InsertDriveFile />
                       </Avatar>
-                      <Box>
-                        <Typography fontWeight={700}>{post.title}</Typography>
-                        <Typography variant="caption" color="text.secondary">
-                          {post.author}
-                        </Typography>
-                      </Box>
+                      <Typography fontWeight={700}>{post.title}</Typography>
                     </Stack>
                   </TableCell>
-                  <TableCell>{post.category}</TableCell>
-                  <TableCell>{post.date}</TableCell>
+
+                  <TableCell>
+                    <Chip
+                      label={post.published ? "PUBLISHED" : "DRAFT"}
+                      color={post.published ? "success" : "warning"}
+                      size="small"
+                    />
+                  </TableCell>
+
                   <TableCell align="right">
-                    <IconButton onClick={() => handleOpen("view", post)}>
+                    <IconButton onClick={() => handleView(post)}>
                       <Visibility />
                     </IconButton>
                     <IconButton
-                      onClick={() => handleOpen("edit", post)}
+                      onClick={() => handleEdit(post)}
                       color="primary"
                     >
                       <Edit />
                     </IconButton>
-                    <IconButton color="error">
+                    <IconButton
+                      color="error"
+                      onClick={() => handleDelete(post.id)}
+                    >
                       <Delete />
                     </IconButton>
                   </TableCell>
@@ -191,14 +231,24 @@ const PostsTable = () => {
         </TableContainer>
       )}
 
+      {/* CREATE / EDIT MODAL */}
       <PostModal
-        open={!!modalMode}
-        mode={modalMode}
+        open={openForm}
+        editData={editData}
+        onClose={() => {
+          setOpenForm(false);
+          setEditData(null);
+        }}
+      />
+
+      {/* VIEW DETAIL MODAL */}
+      <PostDetailModal
+        open={openView}
         post={selectedPost}
-        onClose={handleClose}
+        onClose={() => setOpenView(false)}
       />
     </Box>
   );
 };
 
-export default PostsTable;
+export default PostPage;

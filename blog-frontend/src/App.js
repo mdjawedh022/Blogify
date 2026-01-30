@@ -23,7 +23,10 @@ import AdminLayout from "./Admin/AdminLayout";
 import Posts from "./Admin/Posts";
 import Users from "./Admin/Users";
 import Settings from "./Admin/Settings";
+
+import ProtectedAdmin from "./utils/ProtectedAdmin"; 
 import Dashboard from "./Admin/Dashboard ";
+
 const LayoutWrapper = () => {
   const location = useLocation();
 
@@ -32,32 +35,70 @@ const LayoutWrapper = () => {
 
   return (
     <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-      {/* Show Navbar only for client */}
+      {/* Navbar only for public site */}
       {!isAdminRoute && <Navbar />}
 
       <Box component="main" sx={{ flexGrow: 1 }}>
         <Routes>
-          {/* Public Routes */}
+          {/* ---------- Public Routes ---------- */}
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/blog" element={<BlogList />} />
-          {/* <Route path="/blog-details" element={<BlogDetail />} /> */}
           <Route path="/blog/:id" element={<BlogDetail />} />
-          {/* Admin Routes */}
+
+          {/* ---------- Admin Login ---------- */}
           <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="posts" element={<Posts />} />
-            <Route path="users" element={<Users />} />
-            <Route path="settings" element={<Settings />} />
+
+          {/* ---------- Protected Admin Routes ---------- */}
+          <Route
+            path="/admin"
+            element={
+              <ProtectedAdmin>
+                <AdminLayout />
+              </ProtectedAdmin>
+            }
+          >
+            <Route
+              path="dashboard"
+              element={
+                <ProtectedAdmin>
+                  <Dashboard />
+                </ProtectedAdmin>
+              }
+            />
+            <Route
+              path="posts"
+              element={
+                <ProtectedAdmin>
+                  <Posts />
+                </ProtectedAdmin>
+              }
+            />
+            <Route
+              path="users"
+              element={
+                <ProtectedAdmin>
+                  <Users />
+                </ProtectedAdmin>
+              }
+            />
+            <Route
+              path="settings"
+              element={
+                <ProtectedAdmin>
+                  <Settings />
+                </ProtectedAdmin>
+              }
+            />
           </Route>
 
+          {/* ---------- Fallback ---------- */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Box>
 
-      {/* Show Footer only for client */}
+      {/* Footer only for public site */}
       {!isAdminRoute && <Footer />}
     </Box>
   );

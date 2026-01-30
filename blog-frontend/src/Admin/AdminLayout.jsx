@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useNavigate, Link, Outlet, useLocation } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 import {
   Box,
   Drawer,
@@ -13,6 +15,10 @@ import {
   CssBaseline,
   Avatar,
   Stack,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  Button,
 } from "@mui/material";
 import {
   Menu as MenuIcon,
@@ -22,15 +28,30 @@ import {
   SettingsOutlined,
   LogoutOutlined,
 } from "@mui/icons-material";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { logoutAdmin } from "../utils/auth";
 
 const drawerWidth = 280;
 
 const AdminLayout = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [logoutDialogOpen, setLogoutDialogOpen] = useState(false); // For logout confirmation
   const location = useLocation();
+  const navigate = useNavigate();
 
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
+
+  // Open logout confirmation dialog
+  const handleLogoutClick = () => setLogoutDialogOpen(true);
+
+  // Confirm logout
+  const handleConfirmLogout = () => {
+    setLogoutDialogOpen(false);
+    logoutAdmin();
+    toast.success("Logged out successfully!");
+    navigate("/admin/login", { replace: true });
+  };
+  // Cancel logout
+  const handleCancelLogout = () => setLogoutDialogOpen(false);
 
   const menuItems = [
     {
@@ -115,7 +136,10 @@ const AdminLayout = () => {
 
       {/* Bottom Profile / Logout Section */}
       <Box sx={{ p: 1, borderTop: "1px solid", borderColor: "divider", pt: 2 }}>
-        <ListItemButton sx={{ borderRadius: 3, color: "error.main" }}>
+        <ListItemButton
+          onClick={handleLogoutClick}
+          sx={{ borderRadius: 3, color: "error.main" }}
+        >
           <ListItemIcon sx={{ color: "error.main", minWidth: 45 }}>
             <LogoutOutlined />
           </ListItemIcon>
@@ -125,114 +149,132 @@ const AdminLayout = () => {
           />
         </ListItemButton>
       </Box>
+
+      {/* Logout Confirmation Dialog */}
+      <Dialog open={logoutDialogOpen} onClose={handleCancelLogout}>
+        <DialogTitle>Are you sure you want to logout?</DialogTitle>
+        <DialogActions>
+          <Button onClick={handleCancelLogout} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleConfirmLogout} color="error">
+            Logout
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 
   return (
-    <Box sx={{ display: "flex", bgcolor: "#f4f7fe", minHeight: "100vh" }}>
-      <CssBaseline />
+    <>
+      <Toaster position="top-right" />
+      <Box sx={{ display: "flex", bgcolor: "#f4f7fe", minHeight: "100vh" }}>
+        <CssBaseline />
 
-      {/* Modern Transparent AppBar */}
-      <AppBar
-        position="fixed"
-        elevation={0}
-        sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
-          bgcolor: "rgba(244, 247, 254, 0.8)",
-          backdropFilter: "blur(8px)",
-          color: "text.primary",
-          borderBottom: "1px solid",
-          borderColor: "divider",
-        }}
-      >
-        <Toolbar sx={{ justifyContent: "space-between" }}>
-          <Stack direction="row" alignItems="center">
-            <IconButton
-              color="inherit"
-              edge="start"
-              onClick={handleDrawerToggle}
-              sx={{ mr: 2, display: { sm: "none" } }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="body2" color="text.secondary" fontWeight={500}>
-              Pages /{" "}
-              <span style={{ color: "#1b254b", fontWeight: 700 }}>
-                {location.pathname.split("/").pop()}
-              </span>
-            </Typography>
-          </Stack>
-
-          <Stack direction="row" spacing={2} alignItems="center">
-            <Avatar
-              src="https://i.pravatar.cc/150"
-              sx={{ width: 35, height: 35 }}
-            />
-          </Stack>
-        </Toolbar>
-      </AppBar>
-
-      {/* Sidebar Navigation */}
-      <Box
-        component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-      >
-        {/* Mobile Drawer */}
-        <Drawer
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{ keepMounted: true }}
+        {/* AppBar */}
+        <AppBar
+          position="fixed"
+          elevation={0}
           sx={{
-            display: { xs: "block", sm: "none" },
-            "& .MuiDrawer-paper": { width: drawerWidth, border: "none" },
+            width: { sm: `calc(100% - ${drawerWidth}px)` },
+            ml: { sm: `${drawerWidth}px` },
+            bgcolor: "rgba(244, 247, 254, 0.8)",
+            backdropFilter: "blur(8px)",
+            color: "text.primary",
+            borderBottom: "1px solid",
+            borderColor: "divider",
           }}
         >
-          {drawer}
-        </Drawer>
+          <Toolbar sx={{ justifyContent: "space-between" }}>
+            <Stack direction="row" alignItems="center">
+              <IconButton
+                color="inherit"
+                edge="start"
+                onClick={handleDrawerToggle}
+                sx={{ mr: 2, display: { sm: "none" } }}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                fontWeight={500}
+              >
+                Pages /{" "}
+                <span style={{ color: "#1b254b", fontWeight: 700 }}>
+                  {location.pathname.split("/").pop()}
+                </span>
+              </Typography>
+            </Stack>
 
-        {/* Desktop Sidebar (Floating Style) */}
-        <Drawer
-          variant="permanent"
-          sx={{
-            display: { xs: "none", sm: "block" },
-            "& .MuiDrawer-paper": {
-              width: drawerWidth,
-              boxSizing: "border-box",
-              border: "none",
-              bgcolor: "transparent",
-            },
-          }}
-          open
+            <Stack direction="row" spacing={2} alignItems="center">
+              <Avatar
+                src="https://i.pravatar.cc/150"
+                sx={{ width: 35, height: 35 }}
+              />
+            </Stack>
+          </Toolbar>
+        </AppBar>
+
+        {/* Sidebar */}
+        <Box
+          component="nav"
+          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         >
-          <Box
+          <Drawer
+            variant="temporary"
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            ModalProps={{ keepMounted: true }}
             sx={{
-              height: "calc(100% - 32px)",
-              m: 2,
-              bgcolor: "white",
-              borderRadius: 5,
-              boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.03)",
+              display: { xs: "block", sm: "none" },
+              "& .MuiDrawer-paper": { width: drawerWidth, border: "none" },
             }}
           >
             {drawer}
-          </Box>
-        </Drawer>
-      </Box>
+          </Drawer>
 
-      {/* Main Content Area */}
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          p: { xs: 2, sm: 4 },
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          mt: 8,
-        }}
-      >
-        <Outlet />
+          <Drawer
+            variant="permanent"
+            sx={{
+              display: { xs: "none", sm: "block" },
+              "& .MuiDrawer-paper": {
+                width: drawerWidth,
+                boxSizing: "border-box",
+                border: "none",
+                bgcolor: "transparent",
+              },
+            }}
+            open
+          >
+            <Box
+              sx={{
+                height: "calc(100% - 32px)",
+                m: 2,
+                bgcolor: "white",
+                borderRadius: 5,
+                boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.03)",
+              }}
+            >
+              {drawer}
+            </Box>
+          </Drawer>
+        </Box>
+
+        {/* Main Content */}
+        <Box
+          component="main"
+          sx={{
+            flexGrow: 1,
+            p: { xs: 2, sm: 4 },
+            width: { sm: `calc(100% - ${drawerWidth}px)` },
+            mt: 8,
+          }}
+        >
+          <Outlet />
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 

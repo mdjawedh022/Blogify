@@ -4,7 +4,6 @@ import Categories from '../components/Categories'
 import FeaturedBlogs from '../components/FeaturedBlogs'
 import Newsletter from '../components/Newsletter'
 import Testimonials from '../components/Testimonials'
-import Footer from '../components/Footer'
 import StatsSection from '../components/StatsSection'
 
 const Home = () => {

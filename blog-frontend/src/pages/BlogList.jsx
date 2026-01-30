@@ -91,7 +91,7 @@ function BlogList() {
         ) : (
           <Grid container spacing={4}>
             {blogs &&
-              blogs.map((blog) => (
+              blogs.reverse().map((blog) => (
                 <Grid item key={blog.id} xs={12} sm={6} md={4}>
                   <Card
                     elevation={0}
