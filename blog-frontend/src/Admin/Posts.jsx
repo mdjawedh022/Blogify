@@ -53,11 +53,12 @@ const PostPage = () => {
 
   /* DELETE */
   const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this post?")) {
+    if (window.confirm("Delete this post?")) {
       dispatch(deleteBlog(id));
-      toast.success("Post deleted successfully");
+      toast.success("Post deleted");
     }
   };
+
 
   /* VIEW */
   const handleView = (post) => {
@@ -66,11 +67,10 @@ const PostPage = () => {
   };
 
   /* EDIT */
-  const handleEdit = (post) => {
-    setEditData(post);
-    setOpenForm(true);
-  };
-
+ const handleEdit = (post) => {
+   setEditData(post);
+   setOpenForm(true);
+ };
   if (loading) {
     return (
       <Box display="flex" justifyContent="center" mt={5}>

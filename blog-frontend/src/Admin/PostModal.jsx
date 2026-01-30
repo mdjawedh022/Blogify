@@ -33,17 +33,23 @@ const PostModal = ({ open, onClose, editData }) => {
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
+const handleSubmit = () => {
+  if (!formData.title || !formData.content) {
+    toast.error("All fields required");
+    return;
+  }
 
-  const handleSubmit = () => {
-    if (editData) {
-      dispatch(updateBlog(editData.id, formData));
-      toast.success("Post updated");
-    } else {
-      dispatch(createPost(formData));
-      toast.success("Post created");
-    }
-    onClose();
-  };
+  if (editData) {
+    dispatch(updateBlog(editData.id, formData));
+    toast.success("Post updated");
+  } else {
+    dispatch(createPost(formData));
+    toast.success("Post created");
+  }
+
+  onClose();
+};
+
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">

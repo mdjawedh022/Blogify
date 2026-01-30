@@ -54,21 +54,15 @@ export const fetchPublishedBlogs = () => async (dispatch) => {
   }
 };
 
-/* ================= CREATE POST ================= */
+
+/* ================= CREATE BLOG ================= */
 export const createPost = (postData) => async (dispatch) => {
   dispatch({ type: CREATE_POST_REQUEST });
-
   try {
-    const res = await axios.post("http://localhost:8080/blogs", postData);
-    dispatch({
-      type: CREATE_POST_SUCCESS,
-      payload: res.data,
-    });
-  } catch (error) {
-    dispatch({
-      type: CREATE_POST_FAILURE,
-      payload: error.message,
-    });
+    const res = await axios.post(`http://localhost:8080/blog`, postData);
+    dispatch({ type: CREATE_POST_SUCCESS, payload: res.data });
+  } catch (err) {
+    dispatch({ type: CREATE_POST_FAILURE, payload: err.message });
   }
 };
 
@@ -76,9 +70,13 @@ export const createPost = (postData) => async (dispatch) => {
 export const updateBlog = (id, blogData) => async (dispatch) => {
   try {
     const res = await axios.put(`http://localhost:8080/blogs/${id}`, blogData);
-    dispatch({ type: UPDATE_BLOG_SUCCESS, payload: res.data });
-  } catch (err) {
-    console.error(err);
+
+    dispatch({
+      type: UPDATE_BLOG_SUCCESS,
+      payload: res.data,
+    });
+  } catch (error) {
+    console.error("Update failed", error);
   }
 };
 
@@ -86,8 +84,12 @@ export const updateBlog = (id, blogData) => async (dispatch) => {
 export const deleteBlog = (id) => async (dispatch) => {
   try {
     await axios.delete(`http://localhost:8080/blogs/${id}`);
-    dispatch({ type: DELETE_BLOG_SUCCESS, payload: id });
-  } catch (err) {
-    console.error(err);
+
+    dispatch({
+      type: DELETE_BLOG_SUCCESS,
+      payload: id,
+    });
+  } catch (error) {
+    console.error("Delete failed", error);
   }
 };
